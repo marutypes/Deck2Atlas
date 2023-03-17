@@ -35,6 +35,12 @@ export default function Template({ children }: Props) {
           >
             About
           </Link>
+          <Link
+            href="/my-decks"
+            className={navButtonStyles}
+          >
+            My Decks
+          </Link>
         </nav>
 
         <div className="flex flex-col  justify-start align-evenly md:w-screen md:mx-12 md-pr-32 lg:pr-16 xl:pr-32">

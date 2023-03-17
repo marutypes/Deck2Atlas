@@ -4,13 +4,16 @@ import { useState, useMemo } from "react";
 import type { FormEvent } from "react";
 import { parseDecklist } from "@/utilities/magic";
 import CardSuggestionAutocomplete from "./CardSuggestionAutocomplete.client";
+import useStoredDecks from "@/utilities/hooks/useStoredDecks";
 import Spinner from "./Spinner";
 import CopyButton from "./CopyButton";
 import classNames from "classnames";
 
 export default function DeckBuilder() {
+  const [, deckActions] = useStoredDecks();
   const [decklist, setDecklist] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [atlasUrl, setAtlasUrl] = useState<string | null>(null);
   const [cards, commanders] = useMemo(
     () => parseDecklist(decklist),
@@ -26,19 +29,21 @@ export default function DeckBuilder() {
     };
 
     const JSONdata = JSON.stringify(data);
-
-    const response = await fetch("/api/decklist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSONdata,
-    });
-
-    const result = await response.json();
+    try {
+      const response = await fetch("/api/decklist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSONdata,
+      });
+      const { url } = await response.json();
+      deckActions.upsert(url);
+      setAtlasUrl(url);
+    } catch (err) {
+      setError("Error generating atlas.")
+    }
     setLoading(false);
-
-    setAtlasUrl(result.url);
   };
 
   const invalid = cards.length == 0 || cards.length > 140;
@@ -94,8 +99,9 @@ export default function DeckBuilder() {
           Generate Atlas
         </button>
       </form>
-      <div className={classNames("h-8 pt-4", {"self-start": !loading})}>
+      <div className={classNames("py-4", { "self-start": !loading })}>
         {loading && <Spinner />}
+        {!loading && error && <div className="text-red-400 bg-slate-800 rounded-md p-2">{error}</div>}
         {!loading && atlasUrl && <CopyButton href={atlasUrl} />}
       </div>
     </div>

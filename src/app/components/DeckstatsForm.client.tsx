@@ -6,8 +6,10 @@ import Spinner from "./Spinner";
 import CopyButton from "./CopyButton";
 import classNames from "classnames";
 import { getDeckstatsInfo } from "@/utilities/deckstats";
+import useStoredDecks from "@/utilities/hooks/useStoredDecks";
 
 export default function DeckstatsForm() {
+  const [, storedDeckActions] = useStoredDecks();
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +17,7 @@ export default function DeckstatsForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     const deckstats = getDeckstatsInfo(url);
     if (deckstats == null) {
       setError("Deckstats URL seems to be invalid.");
@@ -23,21 +25,24 @@ export default function DeckstatsForm() {
     }
 
     setLoading(true);
+    try {
+      const response = await fetch("/api/decklist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          deckstats,
+        }),
+      });
 
-    const response = await fetch("/api/decklist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        deckstats,
-      }),
-    });
-
-    const result = await response.json();
+      const { url } = await response.json();
+      setAtlasUrl(url);
+      storedDeckActions.upsert(url);
+    } catch (err) {
+      setError("Error generating atlas.");
+    }
     setLoading(false);
-
-    setAtlasUrl(result.url);
   };
 
   return (
@@ -62,14 +67,18 @@ export default function DeckstatsForm() {
         <button
           type="submit"
           className={classNames(
-            "bg-purple-500 mt-4  border active:bg-black focus:outline-none border-gray-500 focus:border-white text-white font-bold py-2 px-4 rounded",
+            "bg-purple-500 mt-4  border active:bg-black focus:outline-none border-gray-500 focus:border-white text-white font-bold py-2 px-4 rounded"
           )}
         >
           Generate Atlas
         </button>
       </form>
-      <div className={classNames("h-8 pt-4", {"self-start": !loading})}>
-        {!loading && error && <div className="text-red">{error}</div>}
+      <div className={classNames("h-8 pt-4", { "self-start": !loading })}>
+        {!loading && error && (
+          <div className="text-red-400 bg-slate-800 rounded-md p-2">
+            {error}
+          </div>
+        )}
         {loading && <Spinner />}
         {!loading && atlasUrl && <CopyButton href={atlasUrl} />}
       </div>

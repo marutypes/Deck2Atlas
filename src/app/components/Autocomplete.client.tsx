@@ -93,8 +93,9 @@ const Autocomplete = ({
   }
 
   return (
-    <div className={classNames(AutocompleteContainer, className)}>
+    <form autoComplete="off" className={classNames(AutocompleteContainer, className)}>
       <input
+        autoComplete="off"
         type="text"
         value={inputValue}
         onChange={handleInputChange}
@@ -125,7 +126,7 @@ const Autocomplete = ({
           ))}
         </ul>
       )}
-    </div>
+    </form>
   );
 };
 

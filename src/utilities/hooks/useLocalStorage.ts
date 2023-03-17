@@ -1,7 +1,8 @@
 import { useState } from "react";
+import type {Dispatch, SetStateAction} from "react";
 
 export default function useLocalStorage<T>(key: string, initialValue: T) {
-  const [storedValue, setStoredValue] = useState(() => {
+  const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === "undefined") {
       return initialValue;
     }
@@ -37,5 +38,5 @@ export default function useLocalStorage<T>(key: string, initialValue: T) {
     }
   };
 
-  return [storedValue, setValue];
+  return [storedValue, setValue] as [T, Dispatch<SetStateAction<T>>];
 }
