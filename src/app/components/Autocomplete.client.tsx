@@ -5,8 +5,8 @@ import { tailwind } from "@/utilities/tags";
 
 const AutocompleteContainer = tailwind`relative`;
 const AutocompleteInput = tailwind`block w-full py-2 px-3 leading-tight text-gray-100 border border-gray-500 bg-slate-900 appearance-none focus:outline-none focus:border-white focus:shadow-outline`;
-const AutocompleteList = tailwind`absolute z-10 w-full mt-1 border text-gray-100 border border-gray-500 bg-slate-900 divide-y divide-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto`;
-const AutocompleteItem = tailwind`py-2 px-3 cursor-pointer focus:bg-purple-500 hover:bg-purple-500 select-none transition-colors`;
+const AutocompleteList = tailwind`absolute z-10 w-full pt-1 border text-gray-100 border border-gray-500 bg-slate-900 divide-y divide-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto`;
+const AutocompleteItem = tailwind`py-2 px-3 cursor-pointer focus:bg-purple-500 active:bg-purple-500 hover:bg-purple-500 select-none transition-colors`;
 
 interface Props {
   fetcher: (text: string) => Promise<string[]>;
@@ -113,7 +113,7 @@ const Autocomplete = ({
               key={option}
               className={classNames(
                 AutocompleteItem,
-                index === selectedIndex && "bg-gray-100"
+                index === selectedIndex && "bg-purple-500"
               )}
               onClick={() => {
                 setOpen(false);

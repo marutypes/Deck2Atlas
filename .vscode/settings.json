@@ -1,5 +1,8 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "tailwindCSS.includeLanguages": { "plaintext": "javascript" }
+  "tailwindCSS.includeLanguages": { "plaintext": "javascript" },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false
 }

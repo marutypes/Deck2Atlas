@@ -29,7 +29,7 @@ const CardSuggestionAutocomplete = ({ onSelect }: Props) => {
     };
   }, []);
   return (
-    <div className="mb-8 flex flex-row relative w-full items-center justify-center">
+    <div className="pb-4 md:pb-8 flex flex-row relative w-full items-center justify-center">
       <Spinner
         className={classNames("absolute -left-12", {
           invisible: !loading,

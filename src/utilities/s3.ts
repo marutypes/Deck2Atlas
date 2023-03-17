@@ -1,5 +1,5 @@
+require('aws-sdk/lib/maintenance_mode_message').suppress = true;
 import { S3 } from "aws-sdk";
-import fs from "fs";
 
 const s3 = new S3({ region: "us-east-2" });
 
@@ -43,4 +43,5 @@ export async function uploadFileToS3(key: string, bucket: string, file: Buffer) 
 
   const result = await s3.upload(uploadParams).promise();
   console.log(`File uploaded to S3 bucket: ${result.Location}`);
+  return result;
 }
