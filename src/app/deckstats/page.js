@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import DeckstatsForm from "@/app/components/DeckstatsForm.client";
 
 export default function Home() {

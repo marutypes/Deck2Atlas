@@ -10,7 +10,7 @@ export default function AboutPage() {
           <p className="pb-2">
             Hi there! My name is Maru. You may know me from such worlds as{" "}
             <Link href="https://vrchat.com/home/content/worlds/wrld_d29c4512-ad9c-4c39-9ca6-b6081e3af99d">
-              Maru's Arcade
+              Maru&apos;s Arcade
             </Link>,{" "}
             <Link href="https://vrchat.com/home/world/wrld_3d580870-fe6f-4db5-ba4e-efc04580cc88">
               Pitch That Grift
