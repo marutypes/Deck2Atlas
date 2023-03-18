@@ -73,7 +73,7 @@ export default function DeckstatsForm() {
           Generate Atlas
         </button>
       </form>
-      <div className={classNames("h-8 pt-4", { "self-start": !loading })}>
+      <div className={classNames("py-4", { "self-start": !loading })}>
         {!loading && error && (
           <div className="text-red-400 bg-slate-800 rounded-md p-2">
             {error}

@@ -57,7 +57,7 @@ export default function Template({ children }: Props) {
               , or for your own purposes.
             </p>
           </header>
-          <div className="px-2 w-full lg:w-full xl:pl-36 2xl:px-64 animate-in fade-in slide-in-from-bottom duration-300">
+          <div className="px-2 w-full lg:w-full xl:pl-36 2xl:px-64 animate-in fade-in duration-300">
             {children}
           </div>
         </div>
